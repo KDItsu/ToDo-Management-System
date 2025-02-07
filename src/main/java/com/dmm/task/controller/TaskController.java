@@ -48,14 +48,6 @@ public class TaskController {
 			day = date;  // 引数で受け取った日付をそのまま使う
 		}
 
-
-		// 日にちを格納する変数を用意する
-		LocalDate day;
-
-		// その月の1日を取得する
-		day = LocalDate.now();  // 現在日時を取得
-		day = LocalDate.of(day.getYear(), day.getMonthValue(), 1);  // 現在日時からその月の1日を取得
-
 		// ★
 		model.addAttribute("month", day.format(DateTimeFormatter.ofPattern("yyyy年MM月")));
 
@@ -134,7 +126,7 @@ public class TaskController {
 		return "main";
 	}
 
-		
+
 	// ★タスク登録画面の表示用, 画面表示は @GetMappingでマッピングする
 	@GetMapping("/main/create/{date}")
 	public String create(Model model, @PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date) {

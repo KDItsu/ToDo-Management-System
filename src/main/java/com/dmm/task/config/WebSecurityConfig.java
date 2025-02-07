@@ -58,7 +58,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		// 画像、JavaScript、CSSは認可の対象外とする
 		web.debug(false).ignoring().antMatchers("/images/**", "/js/**", "/css/**");
 	}
-
+	
+	
 
 	//		デフォルトですと、サインイン（認証）しないと CSSなども読み込まれないようになっています。
 	//		よって、上記のように画像、JavaScript、CSSは認可の対象外とすることで、認証しなくても読み込まれるようにしています！
