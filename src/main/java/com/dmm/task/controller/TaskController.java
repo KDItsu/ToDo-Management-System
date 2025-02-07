@@ -4,6 +4,7 @@ import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -19,15 +20,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import com.dmm.task.data.entity.Tasks;
 import com.dmm.task.data.repository.TasksRepository;
 import com.dmm.task.form.TaskForm;
-
-import antlr.collections.List;
+import com.dmm.task.service.AccountUserDetails;
 
 @Controller
 public class TaskController {
 
-
-	@GetMapping("/main")	
-	public String main(Model model, @AuthenticationPrincipal AccountUserDetails user, @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date) {  // ★
+	@GetMapping("/main")
+	public String main(Model model, @AuthenticationPrincipal AccountUserDetails user, @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date) {
 
 		// 週と日を格納する二次元のListを用意する
 		List<List<LocalDate>> month = new ArrayList<>();
@@ -110,16 +109,16 @@ public class TaskController {
 		// ★日付とタスクを紐付けるコレクション
 		MultiValueMap<LocalDate, Tasks> tasks = new LinkedMultiValueMap<LocalDate, Tasks>();
 
-		List<Tasks> list;  // ★
 
-		// ★管理者だったら
+		List<Tasks> list;
 		if(user.getUsername().equals("admin")) {
 			// 管理者だったら
-			list = repo.findAllByDateBetween(start.atTime(0,0), end.atTime(0,0));  // ★
-		} else {  
+			list = repo.findAllByDateBetween(start.atTime(0,0), end.atTime(0,0)); 
+		} else {
 			// ユーザーだったら
-			list = repo.findByDateBetween(start.atTime(0, 0),end.atTime(0, 0), user.getName());  // ★
+			list = repo.findByDateBetween(start.atTime(0, 0),end.atTime(0, 0), user.getName());
 		}
+
 		// ★取得したタスクをコレクションに追加
 		for(Tasks task : list) {
 			tasks.add(task.getDate().toLocalDate(), task);
@@ -135,6 +134,7 @@ public class TaskController {
 		return "main";
 	}
 
+		
 	// ★タスク登録画面の表示用, 画面表示は @GetMappingでマッピングする
 	@GetMapping("/main/create/{date}")
 	public String create(Model model, @PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date) {

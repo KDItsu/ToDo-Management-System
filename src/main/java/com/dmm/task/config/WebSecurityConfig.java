@@ -10,6 +10,8 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import com.dmm.task.service.AccountUserDetailsService;
+
 @Configuration // 設定を行うクラスであることを指定
 @EnableWebSecurity // Spring Securityを利用することを指定
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
