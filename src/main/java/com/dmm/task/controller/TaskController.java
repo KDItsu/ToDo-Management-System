@@ -74,26 +74,48 @@ public class TaskController {
 		month.add(week);  // 1週目のリストを、月のリストへ格納する
 
 		week = new ArrayList<>();  // 次週のリストを新しくつくる
+		
+		// 2週目
+	    // ★（ここから）
+		int currentMonth = day.getMonthValue();
+		int leftOfMonth = day.lengthOfMonth() - day.getDayOfMonth();
+		leftOfMonth = day.lengthOfMonth() - leftOfMonth;
+		leftOfMonth = 7 - leftOfMonth;
 
-		// 2週目（「7」から始めているのは2週目だから）
-		for(int i = 7; i <= day.lengthOfMonth(); i++) {
-			week.add(day);  // 週のリストへ格納
+		for (int i = 7; i <= day.lengthOfMonth() + leftOfMonth; i++) {
+		  week.add(day);  // 週のリストへ格納
 
-			w = day.getDayOfWeek();
-			if(w == DayOfWeek.SATURDAY) {  // 土曜日だったら
-				month.add(week);  // 当該週のリストを、月のリストへ格納する
-				week = new ArrayList<>();  // 次週のリストを新しくつくる
-			}
+		  w = day.getDayOfWeek();
+		  if(w == DayOfWeek.SATURDAY) {  // 土曜日だったら
+		    month.add(week);  // 当該週のリストを、月のリストへ格納する
+		    week = new ArrayList<>();  // 次週のリストを新しくつくる
+		  }
 
-			day = day.plusDays(1);  // 1日進める
+		  day = day.plusDays(1);  // 1日進める
+
+		  if (currentMonth != day.getMonthValue()) {
+			  // 翌月になったら抜ける
+			  break;
+		  }
 		}
-
+	   
 		// 最終週の翌月分
+		// ★（ここから）
 		w = day.getDayOfWeek();
-		for(int i = 1; i < 7 - w.getValue(); i++) {  
-			week.add(day);
-			day = day.plusDays(1);
+		if(w != DayOfWeek.SUNDAY) {
+			DayOfWeek endofmonth = day.getDayOfWeek();
+			int next = 7 - endofmonth.getValue();
+			if (next == 0) {
+				next = 7;
+			}
+			for (int n = 1; n <= next; n++) {
+				week.add(day);
+				day = day.plusDays(1);
+			}
+			month.add(week);
 		}
+		// ★（ここまで）
+
 
 		end = day;  // ★
 
