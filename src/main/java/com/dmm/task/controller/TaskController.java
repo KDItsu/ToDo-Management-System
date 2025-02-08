@@ -74,31 +74,31 @@ public class TaskController {
 		month.add(week);  // 1週目のリストを、月のリストへ格納する
 
 		week = new ArrayList<>();  // 次週のリストを新しくつくる
-		
+
 		// 2週目
-	    // ★（ここから）
+		// ★（ここから）
 		int currentMonth = day.getMonthValue();
 		int leftOfMonth = day.lengthOfMonth() - day.getDayOfMonth();
 		leftOfMonth = day.lengthOfMonth() - leftOfMonth;
 		leftOfMonth = 7 - leftOfMonth;
 
 		for (int i = 7; i <= day.lengthOfMonth() + leftOfMonth; i++) {
-		  week.add(day);  // 週のリストへ格納
+			week.add(day);  // 週のリストへ格納
 
-		  w = day.getDayOfWeek();
-		  if(w == DayOfWeek.SATURDAY) {  // 土曜日だったら
-		    month.add(week);  // 当該週のリストを、月のリストへ格納する
-		    week = new ArrayList<>();  // 次週のリストを新しくつくる
-		  }
+			w = day.getDayOfWeek();
+			if(w == DayOfWeek.SATURDAY) {  // 土曜日だったら
+				month.add(week);  // 当該週のリストを、月のリストへ格納する
+				week = new ArrayList<>();  // 次週のリストを新しくつくる
+			}
 
-		  day = day.plusDays(1);  // 1日進める
+			day = day.plusDays(1);  // 1日進める
 
-		  if (currentMonth != day.getMonthValue()) {
-			  // 翌月になったら抜ける
-			  break;
-		  }
+			if (currentMonth != day.getMonthValue()) {
+				// 翌月になったら抜ける
+				break;
+			}
 		}
-	   
+
 		// 最終週の翌月分
 		// ★（ここから）
 		w = day.getDayOfWeek();
